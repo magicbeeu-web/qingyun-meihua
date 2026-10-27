@@ -1,0 +1,50 @@
+{
+ "乾": {
+  "num": 1,
+  "bits": "111",
+  "element": "金",
+  "image": "天"
+ },
+ "兌": {
+  "num": 2,
+  "bits": "110",
+  "element": "金",
+  "image": "澤"
+ },
+ "離": {
+  "num": 3,
+  "bits": "101",
+  "element": "火",
+  "image": "火"
+ },
+ "震": {
+  "num": 4,
+  "bits": "100",
+  "element": "木",
+  "image": "雷"
+ },
+ "巽": {
+  "num": 5,
+  "bits": "011",
+  "element": "木",
+  "image": "風"
+ },
+ "坎": {
+  "num": 6,
+  "bits": "010",
+  "element": "水",
+  "image": "水"
+ },
+ "艮": {
+  "num": 7,
+  "bits": "001",
+  "element": "土",
+  "image": "山"
+ },
+ "坤": {
+  "num": 8,
+  "bits": "000",
+  "element": "土",
+  "image": "地"
+ }
+}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1426">
+<title>青雲子・每週免費一卦｜梅花易數</title>
+<meta name="description" content="青雲子梅花易數，每週免費起卦一次。寫下心中的事與三個數字，就能看到本卦，互卦與變卦，以及體用吉凶。">
+<link rel="icon" href="icon.png">
+<link rel="preload" href="wk-medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=20261027a">
+</head>
+<body>
+<div class="page" id="app">
+ <div class="grain" aria-hidden="true"></div><div class="mist" aria-hidden="true"></div>
+ <header class="topbar"><div class="brand"><span class="seal">青</span><span>青雲子・東方玄學</span></div></header>
+
+ <!-- 1 首頁：起卦 -->
+ <main class="screen" id="home">
+  <section class="hero">
+   <div class="ring-wrap"><div class="ring" data-size="300" data-op="0.22"></div><div class="avatar" id="hero"><img id="heroImg" alt="青雲子"></div></div>
+   <p class="eyebrow">梅花易數・每週一卦</p>
+   <h1 class="title">每週免費一卦</h1>
+   <div class="divider"><span></span><b>◆</b><span></span></div>
+   <p class="voice">「心裡那件事，貧道替你看一卦。<br>誠心寫下，卦自會回答你。」</p>
+  </section>
+  <form class="form card" id="castForm" autocomplete="off" novalidate>
+   <label class="lbl" for="q">心中想問的事</label>
+   <input class="field" id="q" maxlength="40" placeholder="例如：這份新工作要不要接" enterkeyhint="next">
+   <label class="lbl" for="n1">隨心寫下三個數字</label>
+   <div class="nums">
+    <input class="num" id="n1" inputmode="numeric" pattern="[0-9]*" maxlength="4" aria-label="第一個數字">
+    <input class="num" id="n2" inputmode="numeric" pattern="[0-9]*" maxlength="4" aria-label="第二個數字">
+    <input class="num" id="n3" inputmode="numeric" pattern="[0-9]*" maxlength="4" aria-label="第三個數字">
+   </div>
+   <p class="hint">不必多想，第一個浮現的數字最準。</p>
+   <button class="link-btn" type="button" id="btnRand">想不出數字，讓青雲子替你取數</button>
+   <p class="err" id="err" role="alert"></p>
+   <button class="gold-btn" type="submit" id="btnCast">起　卦</button>
+   <p class="note" id="homeNote">每人每週可免費起卦一次</p>
+  </form>
+  <section class="how">
+   <p class="sec-k">起卦的規矩</p>
+   <p class="how-t">第一個數除以八取餘數為上卦，第二個數除以八取餘數為下卦，餘數為零就算八。三數相加除以六取餘數為動爻，餘數為零就算六。卦數依先天八卦：乾一，兌二，離三，震四，巽五，坎六，艮七，坤八。</p>
+  </section>
+ </main>
+
+ <!-- 2 起卦動畫 -->
+ <section class="screen" id="casting" aria-live="polite">
+  <div class="cast-in">
+   <div class="hex big" id="castHex"></div>
+   <p class="cast-t">卦象成形中</p>
+  </div>
+ </section>
+
+ <!-- 3 結果 -->
+ <main class="screen" id="result">
+  <section class="res-head">
+   <p class="eyebrow">你的本週一卦</p>
+   <p class="asked" id="asked"></p>
+   <p class="calc" id="calc"></p>
+   <p class="calc2" id="calc2"></p>
+  </section>
+  <section class="hexrow" id="hexrow"></section>
+  <section class="card verdict" id="verdict"></section>
+  <section class="card reading" id="benCard"></section>
+  <section class="card reading" id="lineCard"></section>
+  <section class="card reading" id="bianCard"></section>
+  <p class="disclaim">卦象是一面鏡子，最後的決定仍在你手上。</p>
+  <section class="cta">
+   <p class="cta-k">想問得更深</p>
+   <p class="cta-t">讓貧道一對一幫你細看</p>
+   <div class="chips" id="chips"></div>
+   <a class="line-btn" id="ctaLine1" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#f6ecd2" d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.3 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.5s5.9-3.5 8-6c1.4-1.6 2-3.2 2-4.8C22 6.6 17.5 3 12 3z"/></svg>加入青雲子 LINE</a>
+  </section>
+  <p class="res-note" id="resNote"></p>
+  <button class="ghost-btn" type="button" id="btnHome">回到首頁</button>
+ </main>
+
+ <!-- 4 本週已起過 -->
+ <main class="screen" id="used">
+  <section class="used">
+   <div class="ring-wrap small"><div class="ring" data-size="220" data-op="0.28"></div><div class="moon"><span>卦</span></div></div>
+   <h1 class="title t2">本週的卦，你已起過</h1>
+   <div class="divider"><span></span><b>◆</b><span></span></div>
+   <p class="voice">「一事一卦，問多了反而不準。<br>這週先照著卦意走，下週一再來找貧道。」</p>
+   <div class="count"><div><b id="cd">0</b><span>天</span></div><i>:</i><div><b id="ch">00</b><span>時</span></div><i>:</i><div><b id="cm">00</b><span>分</span></div></div>
+   <p class="reset" id="resetAt">下週一 00:00 可再起卦</p>
+   <button class="back" type="button" id="btnBack"></button>
+  </section>
+  <section class="services">
+   <p class="sec-k">付費諮詢</p>
+   <h3 class="sec-t">想看得更完整</h3>
+   <div id="svcList"></div>
+   <a class="line-btn" id="ctaLine2" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#f6ecd2" d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.3 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.5s5.9-3.5 8-6c1.4-1.6 2-3.2 2-4.8C22 6.6 17.5 3 12 3z"/></svg>加入青雲子 LINE</a>
+   <p class="svc-note">點選想問的服務，會直接開啟 LINE 私訊青雲子。</p>
+  </section>
+ </main>
+
+ <div class="cloud-layer" aria-hidden="true"></div>
+ <footer class="foot">© 青雲子　節氣開運・八字紫微</footer>
+ <div class="toast" id="toast"></div>
+ <div class="testtag">測試模式</div>
+</div>
+<script src="app.js?v=20261027a"></script>
+</body></html>
