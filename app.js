@@ -13,18 +13,28 @@ var CONFIG = {
   // ====================================
   FREE_PER_WEEK: 1,
   LINE_ID: '@067dffds',
+  // 價格（選填，數字，單位 NT$）：price = 原價（有 promo 時會畫刪除線），promo = 開幕價。
+  // 兩個都不填就不顯示價格；例如 { name: '八字流年', ..., price: 1600, promo: 990 }
   SERVICES: [
-    { name: '六爻問事', desc: '感情工作抉擇，一事一卦問清楚', bits: '011000' },
-    { name: '八字流年', desc: '今明兩年的財運事業與感情走向', bits: '101101' },
-    { name: '一生命格詳批', desc: '看你一生的個性事業財運與大運', bits: '111111' },
-    { name: '紫微斗數命盤', desc: '本命十二宮，看大限與今年重點', bits: '010101' },
-    { name: '紫微流年流月', desc: '逐月看今年，何處順何處要留心', bits: '001100' },
-    { name: '擇日', desc: '開業搬家與嫁娶，挑一個好日子', bits: '100110' },
-    { name: '姻緣合盤', desc: '對照兩人八字，看姻緣合不合', bits: '110011' }
+    { name: '梅花易數詳解', desc: '針對你的問題，親自起卦細解', bits: '110110', price: 400, promo: 199 },
+    { name: '六爻問事', desc: '感情工作抉擇，一事一卦問清楚', bits: '011000', price: 600, promo: 299 },
+    { name: '八字流年', desc: '今明兩年的財運事業與感情走向', bits: '101101', price: 1600, promo: 999 },
+    { name: '一生命格詳批', desc: '看你一生的個性事業財運與大運', bits: '111111', price: 2400, promo: 1299 },
+    { name: '紫微斗數命盤', desc: '本命十二宮，加今年流年流月', bits: '010101', price: 3200, promo: 1299 },
+    { name: '姻緣合盤', desc: '對照兩人八字，看姻緣合不合', bits: '110011', price: 2400, promo: 999 },
+    { name: '擇日', desc: '開業搬家與嫁娶，挑一個好日子', bits: '100110', price: 1600, promo: 999 }
   ],
   TZ_OFFSET_H: 8,                 // Asia/Taipei (no DST)
   STORAGE_KEY: 'qyz_meihua_v1'
 };
+function money(n) { return 'NT$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function priceHTML(s) {   // 未設定價格時回傳空字串，卡片不顯示價格列
+  var has = function (v) { return typeof v === 'number' && v > 0; };
+  if (has(s.price) && has(s.promo)) return '<p class="svc-pr"><s>原價 ' + money(s.price) + '</s><b>開幕價 ' + money(s.promo) + '</b></p>';
+  if (has(s.promo)) return '<p class="svc-pr"><b>開幕價 ' + money(s.promo) + '</b></p>';
+  if (has(s.price)) return '<p class="svc-pr"><b>' + money(s.price) + '</b></p>';
+  return '';
+}
 function lineChat(text) { return 'https://line.me/R/oaMessage/' + CONFIG.LINE_ID + '/?' + encodeURIComponent(text); }
 var LINE_ADD = 'https://line.me/R/ti/p/' + CONFIG.LINE_ID;
 
@@ -142,7 +152,7 @@ if (TEST_MODE) app.classList.add('test');
   $('chips').innerHTML = CONFIG.SERVICES.map(function (s) { return '<a href="' + esc(lineChat('我想詢問' + s.name)) + '" target="_blank" rel="noopener">' + esc(s.name) + '</a>'; }).join('');
   $('svcList').innerHTML = CONFIG.SERVICES.map(function (s) {
     return '<a class="svc" href="' + esc(lineChat('我想詢問' + s.name)) + '" target="_blank" rel="noopener"><div class="svc-ic">' + hexHTML(s.bits, 0, 22) +
-      '</div><div class="svc-tx"><p class="svc-n">' + esc(s.name) + '</p><p class="svc-d">' + esc(s.desc) + '</p></div><div class="svc-p">私訊詢問<span>›</span></div></a>';
+      '</div><div class="svc-tx"><p class="svc-n">' + esc(s.name) + '</p><p class="svc-d">' + esc(s.desc) + '</p>' + priceHTML(s) + '</div><div class="svc-p">私訊詢問<span>›</span></div></a>';
   }).join('');
 })();
 
